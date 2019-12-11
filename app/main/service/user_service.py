@@ -23,7 +23,7 @@ def save_new_user(data):
     else:
         response_object = {
             'status': 'fail',
-            'message': 'User already exists. Please Log in.',
+            'message': 'User already exists.',
         }
         return response_object, 409
 
@@ -36,8 +36,8 @@ def get_all_users():
 # def get_a_user(public_id):
 #     return User.query.filter_by(public_id=public_id).first()
 
-def get_a_user_repos_list(public_id):
-    user = User.query.filter_by(public_id=public_id).first()
+def get_a_user_repos_list(username):
+    user = User.query.filter_by(username=username).first()
     return user.list_repositories
 
 

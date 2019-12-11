@@ -6,6 +6,6 @@ class UserDto:
     user = api.model('user', {
 
         'username': fields.String(required=True, description='user username'),
-        'repositories': fields.String(required=True, description='user repositories'),
-        'public_id': fields.String(description='user Identifier')
+        'repositories': fields.String(required=False, description='user repositories'),
+        'public_id': fields.String(required=False, description='user Identifier')
     })
