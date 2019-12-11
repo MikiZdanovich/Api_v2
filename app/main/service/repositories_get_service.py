@@ -2,6 +2,7 @@ from typing import Union, Dict, List, Tuple
 import requests
 
 
+
 def get_data_from_git_api(nickname: str) -> Union[Dict[str, str], List[str]]:
     url = "https://api.github.com/users/{}/repos".format(nickname)
     response = requests.get(url)
@@ -21,3 +22,4 @@ def get_repos(nickname: str) -> Tuple[str, Union[str, dict]]:
     response = get_data_from_git_api(nickname)
     result: Union[str, dict] = parse_response(response)
     return f"List of {nickname} repos: ", result
+
