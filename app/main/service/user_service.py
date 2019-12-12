@@ -11,13 +11,13 @@ def save_new_user(data):
         new_user = User(
 
             username=data['username'],
-            list_repositories=get_repos(data['username']),
-            registered_on=datetime.datetime.utcnow()
+            repositories=get_repos(data['username']),
+            requested_on=datetime.datetime.utcnow()
         )
         save_changes(new_user)
         response_object = {
             'status': 'success',
-            'repositories': User.query.filter_by(username=data["username"]).first().list_repositories,
+            'repositories': User.query.filter_by(username=data["username"]).first().repositories,
             'message': 'Successfully saved.'
         }
         return response_object, 201
@@ -25,7 +25,7 @@ def save_new_user(data):
         response_object = {
             'status': 'fail',
             'message': 'User already exists.',
-            'repositories': User.query.filter_by(username=data["username"]).first().list_repositories
+            'repositories': User.query.filter_by(username=data["username"]).first().repositories
         }
         return response_object, 409
 
