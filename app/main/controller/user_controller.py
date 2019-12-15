@@ -22,20 +22,12 @@ class UserList(Resource):
     def post(self):
         """Creates a new User """
         data = request.json
-        return save_new_user(data=data)
+        return save_new_user(data=data),
 
 
-@api.route('/<username>')
-@api.param('username', 'The User Git name')
-@api.response(404, 'User not found.')
+@api.route("/<username>")
+@api.param("username", "User Git Name")
 class User(Resource):
-    @api.doc('get a user')
-    @api.marshal_with(_user)
-    def get(self, username):
-        """get a user given its identifier"""
-        user = get_repos(username)
-        if not user:
-            api.abort(404)
-        else:
-            return user
-
+    @api.doc("return repos")
+    def repos(self, username):
+        return get_repos(username)
