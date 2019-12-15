@@ -1,4 +1,3 @@
-import uuid
 import datetime
 from app.main.service.get_repositories_service import get_repos
 from app.main import db
@@ -40,7 +39,7 @@ def save_new_user(data):
             return response_object
 
 
-def get_all_users():
+def get_all_saved_users():
     return User.query.all()
 
 
