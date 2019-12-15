@@ -1,7 +1,7 @@
 from typing import Union, Dict, List
 import requests
 
-nikname = "MikiZda23novich"
+
 
 
 def get_data_from_git_api(nickname: str) -> Union[Dict[str, str], List[str]]:
@@ -26,4 +26,3 @@ def get_repos(nickname: str) -> Union[str, dict]:
     return result
 
 
-print(get_repos(nikname))
