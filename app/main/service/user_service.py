@@ -4,39 +4,53 @@ from app.main import db
 from app.main.model.users import User
 
 
-def save_new_user(data):
-    user = User.query.filter_by(username=data['username']).first()
-    if not user:
-        new_user = User(
+def new_user(data, repositories):
+    user = User(username=data['username'],
+                repositories=repositories,
+                requested_on=datetime.datetime.utcnow())
+    save_changes(user)
 
-            username=data['username'],
-            repositories=get_repos(data['username']),
-            requested_on=datetime.datetime.utcnow()
-        )
-        save_changes(new_user)
-        response_object = {
-            'status': 'success',
-            'repositories': new_user.repositories,
-            'message': 'Successfully saved.'
-        }
-        return response_object, 201
-    else:
-        updated_repos = get_repos(nickname=data["username"])
-        if User.query.filter_by(username=data["username"]).first().repositories == updated_repos:
-            response_object = {
-                'status': 'fail',
-                'message': 'User already exists.',
-                'repositories': User.query.filter_by(username=data["username"]).first().repositories
-            }
-            return response_object, 409
+
+
+def updated_user(data, repositories):
+    user = User.query.filter_by(username=data['username']).first()
+    user.repositories = repositories
+    save_changes(user)
+
+
+
+def incorrect_user_name(data):
+    user = User(username=data["username"],
+                repositories="This is invalid git nick_name",
+                requested_on=datetime.datetime.utcnow()
+                )
+
+
+
+def existing_user(data):
+    user = User.query.filter_by(username=data["username"]).first()
+
+
+
+def get_user_repositories(data):
+    repositories = get_repos(data['username'])
+    if repositories != "This is invalid git nick_name":
+        git_user = User.query.filter_by(username=data['username']).first()
+        if git_user:
+            if repositories != git_user.repositories:
+                updated_user(data, repositories)
+            else:
+                existing_user(data)
         else:
-            User.query.filter_by(username=data["username"]).first().repositories = updated_repos
-            response_object = {
-                'status': 'updated',
-                'message': 'User repositories successfully updated',
-                'repositories': User.query.filter_by(username=data["username"]).first().repositories
-            }
-            return response_object
+            new_user(data, repositories)
+    else:
+        incorrect_user_name(data)
+
+    response_object = {
+        'User Name': data["username"],
+        'repositories': repositories
+    }
+    return response_object
 
 
 def get_all_saved_users():
