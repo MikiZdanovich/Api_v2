@@ -9,11 +9,10 @@ ENV FLASK_DEBUG True
 
 WORKDIR /Api
 
-COPY requirements.txt .
+RUN pip install --upgrade pip
+COPY ./requirements.txt /Api/requirements.txt
 RUN pip install -r requirements.txt
 
 ADD . /Api/
 
-EXPOSE 8000
 
-CMD flask run --host=0.0.0.0 --port=8000
