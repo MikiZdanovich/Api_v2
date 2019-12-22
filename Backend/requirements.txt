@@ -21,6 +21,7 @@ jsonschema==3.2.0
 Mako==1.1.0
 MarkupSafe==1.1.1
 more-itertools==8.0.2
+psycopg2-binary
 pycparser==2.19
 PyJWT==1.7.1
 pyrsistent==0.15.6
