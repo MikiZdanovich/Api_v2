@@ -11,7 +11,9 @@ services:
     env_file:
       - ./.env.dev
   app:
-    build: ./Backend
+    build:
+      context: ./Backend
+      dockerfile: ../Dockerfile
     command: flask run --host=0.0.0.0
     volumes:
       - ./Backend:/Api/Backend
