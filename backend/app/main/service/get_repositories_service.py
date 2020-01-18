@@ -1,5 +1,7 @@
 from typing import Union, Dict, List
+
 import requests
+
 
 def get_data_from_git_api(nickname: str) -> Union[Dict[str, str], List[str]]:
     url = "https://api.github.com/users/{}/repos".format(nickname)

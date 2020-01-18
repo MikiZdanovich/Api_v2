@@ -6,3 +6,4 @@ Flask-Migrate
 Flask-Script
 Flask-Restplus
 Flask_Bcrypt
+gunicorn
