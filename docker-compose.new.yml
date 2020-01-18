@@ -15,12 +15,17 @@ services:
       context: ./
       dockerfile: Dockerfile
     command: gunicorn -b 0.0.0.0:5000 --reload  --max-requests 1000 --timeout 30 wsgi:app
-    ports:
-      - 5000:5000
+    expose:
+      - 5000
     env_file:
       - ./.env.dev
     depends_on:
       - db
-
+  nginx:
+    build: backend/app/main/service/nginx
+    ports:
+      - 1337:80
+    depends_on:
+      - app
 volumes:
   postgres_data:
