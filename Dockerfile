@@ -10,9 +10,9 @@ ENV FLASK_DEBUG True
 WORKDIR /Api
 
 RUN pip install --upgrade pip
-COPY ./requirements.txt /Api/requirements.txt
+COPY ./backend/requirements.txt /Api/
 RUN pip install -r requirements.txt
 
-ADD . /Api/
+ADD ./backend .
 
 

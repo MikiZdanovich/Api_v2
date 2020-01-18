@@ -1,11 +1,8 @@
 import datetime
 
-
-from app.main.service.get_repositories_service import get_repos
 from app.main import db
 from app.main.model.users import User
-
-
+from app.main.service.get_repositories_service import get_repos
 
 
 def new_user(data, repositories):

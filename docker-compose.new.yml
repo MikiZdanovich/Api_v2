@@ -14,7 +14,7 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    command: flask run --host=0.0.0.0
+    command: gunicorn -b 0.0.0.0:5000 --reload  --max-requests 1000 --timeout 30 wsgi:app
     ports:
       - 5000:5000
     env_file:
