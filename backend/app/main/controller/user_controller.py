@@ -1,8 +1,8 @@
 from flask import request
 from flask_restplus import Resource
-
 from app.main.service.user_service import get_user_repositories, get_all_saved_users
 from app.main.util.dto import UserDto
+
 
 api = UserDto.api
 _user = UserDto.user
@@ -23,5 +23,4 @@ class UserList(Resource):
         """Get User git Repos"""
         data = request.json
         return get_user_repositories(data=data)
-
 
