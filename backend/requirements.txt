@@ -7,3 +7,5 @@ Flask-Script
 Flask-Restplus
 Flask_Bcrypt
 gunicorn
+celery
+amqp
