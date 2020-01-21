@@ -9,3 +9,4 @@ Flask_Bcrypt
 gunicorn
 celery
 amqp
+redis

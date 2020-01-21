@@ -18,6 +18,13 @@ services:
     ports:
       - "5673:5672"
       - "15672:15672"
+  redis:
+    image: 'redis:3.0-alpine'
+    command: redis-server
+    volumes:
+      - 'redis:/data'
+    ports:
+      - '6379:6379'
   app:
     build:
       context: ./
@@ -39,6 +46,8 @@ services:
     depends_on:
       - db
       - rabbit
+      - redis
 
 volumes:
   postgres_data:
+  redis:
