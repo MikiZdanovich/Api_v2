@@ -5,7 +5,6 @@ psycopg2-binary
 Flask-Migrate
 Flask-Script
 Flask-Restplus
-Flask_Bcrypt
 gunicorn
 celery
 amqp

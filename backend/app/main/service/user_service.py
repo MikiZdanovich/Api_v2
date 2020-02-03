@@ -20,23 +20,17 @@ def updated_user(data, repositories):
     return user
 
 
-def incorrect_user_name(data):
-    user = User(username=data["username"],
-                repositories="This is invalid git nick_name",
-                requested_on=datetime.datetime.utcnow()
-                )
-    return user
-
-
 def existing_user(data):
     user = User.query.filter_by(username=data["username"]).first()
     return user
 
 
+
 def get_user_repositories(data):
-    repositories = get_repos(data['username'])
-    if repositories != "This is invalid git nick_name":
-        git_user = User.query.filter_by(username=data['username']).first()
+
+    try:
+        repositories = get_repos(data['username'])
+        git_user = existing_user(data)
         if git_user:
             if repositories != git_user.repositories:
                 user = updated_user(data, repositories)
@@ -44,15 +38,21 @@ def get_user_repositories(data):
                 user = existing_user(data)
         else:
             user = new_user(data, repositories)
+
+    except NameError:
+        response_object = {
+            'user name': data["username"],
+            'repositories': "Invalid nick name"
+        }
+
     else:
-        user = incorrect_user_name(data)
+        response_object = {
+            'user name': user.username,
+            'repositories': user.repositories
+        }
 
-    response_object = {
-        'User Name': user.username,
-        'repositories': user.repositories
-    }
-    return response_object
-
+    finally:
+        return response_object
 
 def get_all_saved_users():
     return User.query.all()

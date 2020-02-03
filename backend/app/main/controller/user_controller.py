@@ -7,7 +7,7 @@ from app.main.util.dto import UserDto
 api = UserDto.api
 _user = UserDto.user
 
-
+#использовать трай для обработки ошибки
 @api.route('/')
 class UserList(Resource):
     @api.doc('list_of_saved_users')
