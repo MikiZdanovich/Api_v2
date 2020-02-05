@@ -6,3 +6,7 @@ class UserDto:
     user = api.model('user', {
         'username': fields.String(required=True, description='user username'),
     })
+
+#
+# class TaskDto:
+#     api = Namespace('task', description="celery task")

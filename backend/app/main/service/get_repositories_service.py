@@ -1,5 +1,5 @@
 from typing import Union, Dict, List
-from celery_app import app as celery
+
 import requests
 
 
@@ -15,7 +15,7 @@ def parse_response(result) -> List:
         list_repos = [item["name"] for item in result["data"]]
         return list_repos
     else:
-        raise NameError("Invalid git Nickname")
+        raise Exception #cоздать кастомную ошибку User not found
 
 
 def get_repos(nickname: str) -> List:
@@ -23,4 +23,4 @@ def get_repos(nickname: str) -> List:
     result = parse_response(response)
     return result
 
-
+print(get_repos("MikZdanovich"))

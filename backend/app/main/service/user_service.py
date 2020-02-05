@@ -1,8 +1,10 @@
 import datetime
+from time import sleep
 
 from app.main import db
 from app.main.model.users import User
 from app.main.service.get_repositories_service import get_repos
+from celery_app import app as celery
 
 
 def new_user(data, repositories):
@@ -25,13 +27,12 @@ def existing_user(data):
     return user
 
 
-
+@celery.task(bind=True)
 def get_user_repositories(data):
-
     try:
         repositories = get_repos(data['username'])
-        git_user = existing_user(data)
-        if git_user:
+        if existing_user(data):
+            git_user = existing_user(data)
             if repositories != git_user.repositories:
                 user = updated_user(data, repositories)
             else:
@@ -39,20 +40,17 @@ def get_user_repositories(data):
         else:
             user = new_user(data, repositories)
 
-    except NameError:
-        response_object = {
-            'user name': data["username"],
-            'repositories': "Invalid nick name"
-        }
-
-    else:
         response_object = {
             'user name': user.username,
             'repositories': user.repositories
         }
-
-    finally:
+        sleep(100)
         return response_object
+    except Exception:
+        return {"Exception": "User not Found"}
+    # except CustomException:
+    # отложеное выполнение таски
+
 
 def get_all_saved_users():
     return User.query.all()
