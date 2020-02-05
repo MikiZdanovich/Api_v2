@@ -24,7 +24,7 @@ class UserList(Resource):
         """Get User git Repos"""
         data = request.json
         task = get_user_repositories.apply_async(data=data)
-        return {}, {'Location': url_for('.user_task',
+        return {}, {'Location': url_for('.task_status',
                                         task_id=task.id)}
 
 
