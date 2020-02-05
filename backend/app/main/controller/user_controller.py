@@ -28,9 +28,9 @@ class UserList(Resource):
                                         task_id=task.id)}
 
 
-@api.route("/<task_id>")
+@api.route("/<task_id>",  endpoint="task_status")
 class Task(Resource):
-    def task_status(self, task_id):
+    def get(self, task_id):
         """Async Task"""
         task = get_user_repositories.AsyncResult(task_id)
         if task.state == 'PENDING':
