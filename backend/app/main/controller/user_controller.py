@@ -6,7 +6,7 @@ from app.main.util.dto import UserDto
 
 api = UserDto.api
 _user = UserDto.user
-# task_api = TaskDto.api
+
 
 
 @api.route('/')
@@ -23,8 +23,8 @@ class UserList(Resource):
     def post(self):
         """Get User git Repos"""
         data = request.json
-        task = get_user_repositories.apply_async(data=data)
-        return {}, {'Location': url_for('.task_status',
+        task = get_user_repositories.delay(data=data)
+        return {"task_id":task.id}, {'Location': url_for('.task_status',
                                         task_id=task.id)}
 
 
@@ -41,7 +41,8 @@ class Task(Resource):
         elif task.state != 'FAILURE':
             response = {
                 'state': task.state,
-                'status': task.info.get('status', '')
+                'status': task.info.get('status', ''),
+                'repos': task.get()
             }
             if 'result' in task.info:
                 response['result'] = task.info['result']

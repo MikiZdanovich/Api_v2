@@ -1,26 +1,28 @@
-from typing import Union, Dict, List
+from typing import Union, Dict, List, Type, Iterable, Any
 
 import requests
+from requests.models import Response
 
 
-def get_data_from_git_api(nickname: str) -> Union[Dict[str, str], List[str]]:
-    url = "https://api.github.com/users/{}/repos".format(nickname)
-    response = requests.get(url)
-    result = {"status": response.status_code, "data": response.json()}
+def get_data_from_git_api(nickname: str) -> Dict[str, Union[int, List]]:
+    url: str = "https://api.github.com/users/{}/repos".format(nickname)
+    response: Response = requests.get(url)
+    result: Dict[str, Union[int, List]] = {"status": response.status_code, "data": response.json()}
     return result
 
 
-def parse_response(result) -> List:
+def parse_response(result: Dict[str, Union[int, List]]) -> List:
     if result["status"] == 200:
-        list_repos = [item["name"] for item in result["data"]]
+        list_repos: List = [item["name"] for item in result["data"]]
         return list_repos
     else:
-        raise Exception #cоздать кастомную ошибку User not found
+        raise Exception  # cоздать кастомную ошибку User not found
 
 
 def get_repos(nickname: str) -> List:
-    response = get_data_from_git_api(nickname)
-    result = parse_response(response)
+    response: Dict[str, Union[int, List]] = get_data_from_git_api(nickname)
+    result: List = parse_response(response)
     return result
 
-print(get_repos("MikZdanovich"))
+
+

@@ -40,7 +40,7 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    command: celery -A celery_app worker -l info
+    command: celery -A make_celery worker -l info
     env_file:
       - .env.dev
     depends_on:
