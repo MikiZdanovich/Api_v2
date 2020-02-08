@@ -1,16 +1,17 @@
-import os
+from __future__ import absolute_import
 from celery import Celery
 from flask import Flask
 from app.main.config import config_by_name
 from database import db
-from app import blueprint
-
+from app.main.views import user_bp
 
 def create_app(config_name):
     app = Flask(__name__)
     app.config.from_object(config_by_name[config_name])
 
     db.init_app(app)
+    with app.app_context():
+        register_blueprints(app)
     return app
 
 
@@ -39,4 +40,4 @@ def create_celery_app(config):
 
 
 def register_blueprints(app):
-    app.register_blueprint(blueprint)
+    app.register_blueprint(user_bp)
