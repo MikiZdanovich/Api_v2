@@ -1,9 +1,10 @@
-from __future__ import absolute_import
 from celery import Celery
 from flask import Flask
+
 from app.main.config import config_by_name
-from database import db
 from app.main.views import user_bp
+from database import db
+
 
 def create_app(config_name):
     app = Flask(__name__)

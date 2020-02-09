@@ -1,9 +1,9 @@
-from __future__ import absolute_import
 import os
 import unittest
 
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
+
 from apps import create_app
 from database import db
 

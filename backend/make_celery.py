@@ -1,4 +1,3 @@
-
 import os
 from apps import create_celery_app
 

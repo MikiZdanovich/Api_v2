@@ -1,4 +1,4 @@
-from typing import Union, Dict, List, Type, Iterable, Any
+from typing import Union, Dict, List
 
 import requests
 from requests.models import Response
