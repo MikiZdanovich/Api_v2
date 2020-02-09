@@ -6,9 +6,10 @@ from flask_script import Manager
 
 from apps import create_app
 from database import db
+from app.main.views import user_bp
 
 application = create_app(os.getenv('BOILERPLATE_ENV') or 'dev')
-
+application.register_blueprint(user_bp)
 
 application.app_context().push()
 
@@ -17,6 +18,7 @@ manager = Manager(application)
 migrate = Migrate(application, db)
 
 manager.add_command('db', MigrateCommand)
+
 
 @manager.command
 def run():

@@ -2,7 +2,6 @@ from celery import Celery
 from flask import Flask
 
 from app.main.config import config_by_name
-from app.main.views import user_bp
 from database import db
 
 
@@ -12,16 +11,15 @@ def create_app(config_name):
 
     db.init_app(app)
     with app.app_context():
-        register_blueprints(app)
-    return app
+        return app
 
 
-def make_celery(app):
+def celery_make(app):
     celery = Celery(
         app.import_name,
         backend=app.config['CELERY_RESULT_BACKEND'],
         broker=app.config['CELERY_BROKER_URL'],
-        include='app.main.service.get_repositories_service'
+        include='app.main.service.user_service'
     )
     celery.conf.update(app.config)
 
@@ -36,9 +34,9 @@ def make_celery(app):
 
 def create_celery_app(config):
     app = create_app(config)
-    celery = make_celery(app)
+    celery = celery_make(app)
     return celery
 
-
-def register_blueprints(app):
-    app.register_blueprint(user_bp)
+#
+# def register_blueprints(app):
+#     app.register_blueprint(user_bp)
