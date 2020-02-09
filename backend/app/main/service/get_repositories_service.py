@@ -1,5 +1,5 @@
 from typing import Union, Dict, List
-
+from werkzeug.exceptions import NotFound
 import requests
 from requests.models import Response
 
@@ -16,13 +16,10 @@ def parse_response(result: Dict[str, Union[int, List]]) -> List:
         list_repos: List = [item["name"] for item in result["data"]]
         return list_repos
     else:
-        raise Exception  # cоздать кастомную ошибку User not found
+        raise NotFound
 
 
-def get_repos(nickname: str) -> List:
+def get_repos(nickname: str) -> [List, str]:
     response: Dict[str, Union[int, List]] = get_data_from_git_api(nickname)
     result: List = parse_response(response)
     return result
-
-
-

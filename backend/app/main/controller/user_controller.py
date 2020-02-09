@@ -8,7 +8,6 @@ api = UserDto.api
 _user = UserDto.user
 
 
-
 @api.route('/')
 class UserList(Resource):
     @api.doc('list_of_saved_users')
@@ -24,11 +23,12 @@ class UserList(Resource):
         """Get User git Repos"""
         data = request.json
         task = get_user_repositories.delay(data=data)
-        return {"task_id":task.id}, {'Location': url_for('.task_status',
-                                        task_id=task.id)}
+        return {"task_id": task.id}, {'Location': url_for('.task_status',
+                                                          task_id=task.id)}
 
 
-@api.route("/<task_id>",  endpoint="task_status")
+@api.route("/<task_id>", endpoint="task_status")
+@api.response(200,"Celery Task result")
 class Task(Resource):
     def get(self, task_id):
         """Async Task"""
@@ -47,7 +47,6 @@ class Task(Resource):
             if 'result' in task.info:
                 response['result'] = task.info['result']
         else:
-
             response = {
                 'state': task.state,
                 'status': str(task.info),
