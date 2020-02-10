@@ -7,6 +7,7 @@ from requests.models import Response
 def get_data_from_git_api(nickname: str) -> Dict[str, Union[int, List]]:
     url: str = "https://api.github.com/users/{}/repos".format(nickname)
     response: Response = requests.get(url)
+    print(response.ok)
     result: Dict[str, Union[int, List]] = {"status": response.status_code, "data": response.json()}
     return result
 
@@ -27,6 +28,3 @@ def get_repos(nickname: str) -> [List, str]:
     response: Dict[str, Union[int, List]] = get_data_from_git_api(nickname)
     result: List = parse_response(response)
     return result
-
-
-print(get_repos("12312"))
