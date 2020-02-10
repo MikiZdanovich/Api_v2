@@ -3,6 +3,7 @@ from flask_restplus import Resource
 
 from app.main.service.user_service import get_user_repositories, get_all_saved_users
 from app.main.util.dto import UserDto
+from app.main.util.exceptions import GitError
 
 api = UserDto.api
 _user = UserDto.user
@@ -22,13 +23,18 @@ class UserList(Resource):
     def post(self):
         """Get User git Repos"""
         data = request.json
-        task = get_user_repositories.delay(data=data)
-        return {"task_id": task.id}, {'Location': url_for('.task_status',
-                                                          task_id=task.id)}
+        try:
+            task = get_user_repositories.delay(data=data)
+            return {"task_id": task.id}, {'Location': url_for('.task_status',
+                                                              task_id=task.id)}
+        except GitError:
+            task = get_user_repositories.applyasync((data,), countdown=15 * 60)
+            return {"task_id": task.id}, {'Location': url_for('.task_status',
+                                                              task_id=task.id)}
 
 
 @api.route("/<task_id>", endpoint="task_status")
-@api.response(200,"Celery Task result")
+@api.response(200, "Celery Task result")
 class Task(Resource):
     def get(self, task_id):
         """Async Task"""

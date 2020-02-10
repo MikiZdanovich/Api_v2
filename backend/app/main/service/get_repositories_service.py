@@ -1,5 +1,5 @@
 from typing import Union, Dict, List
-from werkzeug.exceptions import NotFound
+from werkzeug.exceptions import NotFound, InternalServerError, Forbidden
 import requests
 from requests.models import Response
 
@@ -15,11 +15,18 @@ def parse_response(result: Dict[str, Union[int, List]]) -> List:
     if result["status"] == 200:
         list_repos: List = [item["name"] for item in result["data"]]
         return list_repos
-    else:
+    elif result['status'] == 404:
         raise NotFound
+    elif result["status"] == 403:
+        raise Forbidden
+    else:
+        raise InternalServerError
 
 
 def get_repos(nickname: str) -> [List, str]:
     response: Dict[str, Union[int, List]] = get_data_from_git_api(nickname)
     result: List = parse_response(response)
     return result
+
+
+print(get_repos("12312"))

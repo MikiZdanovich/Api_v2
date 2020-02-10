@@ -1,12 +1,14 @@
-from time import sleep
 import datetime
 from typing import Union, Dict, List
-from werkzeug.exceptions import NotFound
+from werkzeug.exceptions import NotFound, InternalServerError, Forbidden, GatewayTimeout
 
 from app.main.model.users import User
 from app.main.service.get_repositories_service import get_repos
 from database import db
 from make_celery import celery
+from app.main.util.exceptions import GitError
+
+
 
 
 def new_user(data: Dict[str, str], repositories: List) -> User:
@@ -50,10 +52,8 @@ def get_user_repositories(data: Dict[str, str]) -> Dict[str, Union[str, List]]:
             str(e.code): "User not found"
         }
         return response_object
-
-#     return {"Exception": "User not Found"}
-# except CustomException:
-# отложеное выполнение таски
+    except (InternalServerError, Forbidden, GatewayTimeout):
+        raise GitError()
 
 
 def get_all_saved_users():
