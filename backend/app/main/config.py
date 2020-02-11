@@ -19,6 +19,8 @@ class DevelopmentConfig(Config):
     # uncomment line below to use sqlite db
     # SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'flask_boilerplate_main.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    CELERY_BROKER_URL = 'amqp://rabbitmq:rabbitmq@rabbit:5672/'
+    CELERY_RESULT_BACKEND = 'rpc://'
 
 
 

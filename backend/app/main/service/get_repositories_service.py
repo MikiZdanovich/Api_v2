@@ -1,25 +1,32 @@
 from typing import Union, Dict, List
-
+from werkzeug.exceptions import NotFound, InternalServerError, Forbidden
 import requests
+from requests.models import Response
 
 
-def get_data_from_git_api(nickname: str) -> Union[Dict[str, str], List[str]]:
-    url = "https://api.github.com/users/{}/repos".format(nickname)
-    response = requests.get(url)
-
-    return response
-
-
-def parse_response(response) -> Union[str, Dict[int, str]]:
-    if response.status_code == 200:
-        list_repos = [item["name"] for item in response.json()]
-        return str(list_repos)
-
-    else:
-        return "This is invalid git nick_name"
-
-
-def get_repos(nickname: str) -> Union[str, dict]:
-    response = get_data_from_git_api(nickname)
-    result: Union[str, dict] = parse_response(response)
+def get_data_from_git_api(nickname: str) -> Dict[str, Union[int, List]]:
+    url: str = "https://api.github.com/users/{}/repos".format(nickname)
+    response: Response = requests.get(url)
+    result: Dict[str, Union[int, List]] = {"status": response.status_code, "data": response.json()}
     return result
+
+
+def parse_response(result: Dict[str, Union[int, List]]) -> List:
+    if result["status"] == 200:
+        list_repos: List = [item["name"] for item in result["data"]]
+        return list_repos
+    elif result['status'] == 404:
+        raise NotFound
+    elif result["status"] == 403:
+        raise Forbidden
+    else:
+        raise InternalServerError
+
+
+def get_repos(nickname: str) -> [List, str]:
+    response: Dict[str, Union[int, List]] = get_data_from_git_api(nickname)
+    result: List = parse_response(response)
+    return result
+
+
+print(get_repos("12312"))

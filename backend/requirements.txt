@@ -5,5 +5,8 @@ psycopg2-binary
 Flask-Migrate
 Flask-Script
 Flask-Restplus
-Flask_Bcrypt
 gunicorn
+celery
+amqp
+redis
+Werkzeug==0.16.1 #should be removed from requirements when the issue with Flask_restpuls imports will be fixed

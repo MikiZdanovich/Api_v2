@@ -6,3 +6,4 @@ class UserDto:
     user = api.model('user', {
         'username': fields.String(required=True, description='user username'),
     })
+
