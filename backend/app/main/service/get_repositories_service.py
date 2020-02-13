@@ -27,6 +27,3 @@ def get_repos(nickname: str) -> [List, str]:
     response: Dict[str, Union[int, List]] = get_data_from_git_api(nickname)
     result: List = parse_response(response)
     return result
-
-
-print(get_repos("12312"))

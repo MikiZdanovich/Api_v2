@@ -55,6 +55,6 @@ class Task(Resource):
         else:
             response = {
                 'state': task.state,
-                'status': str(task.info),
+                'status': str(task.info)
             }
         return response
