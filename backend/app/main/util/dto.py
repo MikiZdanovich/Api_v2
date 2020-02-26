@@ -5,5 +5,5 @@ class UserDto:
     api = Namespace('user', description='user related operations')
     user = api.model('user', {
         'username': fields.String(required=True, description='user username'),
+        'repositories': fields.String(description='user repositories')
     })
-

@@ -1,15 +1,18 @@
+import os
+
 from celery import Celery
 from flask import Flask
 
 from app.main.config import config_by_name
-from database import db
+from database import configure_engine, metadata
+
+engine = configure_engine(os.getenv('DATABASE_URL'))
 
 
 def create_app(config_name):
     app = Flask(__name__)
     app.config.from_object(config_by_name[config_name])
-
-    db.init_app(app)
+    metadata.bind = engine
     with app.app_context():
         return app
 
@@ -36,7 +39,3 @@ def create_celery_app(config):
     app = create_app(config)
     celery = celery_make(app)
     return celery
-
-#
-# def register_blueprints(app):
-#     app.register_blueprint(user_bp)

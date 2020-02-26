@@ -5,10 +5,10 @@ Restfull APi with flask 2.0
 
 
 # Up and build required services
-docker-compose -f docker-compose.new.yml up -d --build
+docker-compose -f docker-compose.yml up -d --build
 
 # Run migrations 
-docker-compose exec app python manage.py db upgrade
+docker-compose exec app alembic upgrade head
 
 
 Open http://localhost:5000/

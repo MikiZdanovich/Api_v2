@@ -1,6 +1,5 @@
 import pytest
 import requests
-from requests import Response
 from werkzeug.exceptions import Forbidden, InternalServerError, NotFound
 from app.main.service.get_repositories_service import parse_response, get_data_from_git_api
 

@@ -12,7 +12,8 @@ WORKDIR /Api
 RUN pip install --upgrade pip
 COPY ./backend/requirements.txt /Api/
 RUN pip install -r requirements.txt
-
+COPY alembic.ini /Api/
+COPY alembic /Api/alembic
 ADD ./backend .
 
 

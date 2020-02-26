@@ -3,7 +3,6 @@ from flask_restplus import Resource
 
 from app.main.service.user_service import get_user_repositories, get_all_saved_users
 from app.main.util.dto import UserDto
-from app.main.util.exceptions import GitError
 
 api = UserDto.api
 _user = UserDto.user
@@ -23,14 +22,9 @@ class UserList(Resource):
     def post(self):
         """Get User git Repos"""
         data = request.json
-        try:
-            task = get_user_repositories.delay(data=data)
-            return {"task_id": task.id}, {'Location': url_for('.task_status',
-                                                              task_id=task.id)}
-        except GitError:
-            task = get_user_repositories.applyasync((data,), countdown=15 * 60)
-            return {"task_id": task.id}, {'Location': url_for('.task_status',
-                                                              task_id=task.id)}
+        task = get_user_repositories.delay(data=data)
+        return {"task_id": task.id}, {'Location': url_for('.task_status',
+                                                          task_id=task.id)}
 
 
 @api.route("/<task_id>", endpoint="task_status")
@@ -47,7 +41,7 @@ class Task(Resource):
         elif task.state != 'FAILURE':
             response = {
                 'state': task.state,
-                'status': task.info.get('status', ''),
+                'status': "Done",
                 'repos': task.get()
             }
             if 'result' in task.info:
@@ -58,3 +52,4 @@ class Task(Resource):
                 'status': str(task.info)
             }
         return response
+
