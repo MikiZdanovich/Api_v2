@@ -6,10 +6,11 @@ from flask import Flask
 from app.main.config import config_by_name
 from database import configure_engine, metadata
 
-engine = configure_engine(os.getenv('DATABASE_URL'))
+
 
 
 def create_app(config_name):
+    engine = configure_engine(os.getenv('DATABASE_URL'))
     app = Flask(__name__)
     app.config.from_object(config_by_name[config_name])
     metadata.bind = engine

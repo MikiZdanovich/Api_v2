@@ -1,29 +1,31 @@
 from typing import Dict, List, Union
 
 from sqlalchemy.engine import RowProxy, ResultProxy
+from sqlalchemy.orm import Session
 
 from app.main.model.users import user
 from app.main.service.get_repositories_service import get_repos
 from app.main.util.exceptions import GitHubServerUnavailable
-from database import Session
+# from database import Session
 from make_celery import celery
-
-session = Session(autocommit=True, expire_on_commit=False, autoflush=True)
 
 
 def new_user(data: Dict[str, str], repositories) -> Dict[str, str]:
+    session = Session(autocommit=True, autoflush=True)
     session.execute(user.insert().values(username=data['username'], repositories=repositories))
     git_user = {'username': data['username'], "repositories": repositories}
     return git_user
 
 
 def update_user(data: Dict[str, str], repositories: List) -> Dict[str, str]:
+    session = Session(autocommit=True, autoflush=True)
     session.execute(user.update().where(user.c.username == data['username']).values(repositories=repositories))
     response = {"username": data['username'], "repositories": repositories}
     return response
 
 
 def existing_user(data: Dict[str, str]) -> RowProxy:
+    session = Session(autocommit=True, autoflush=True)
     result = session.execute(user.select(user.c.username == data['username']))
     return result.fetchone()
 
@@ -46,6 +48,7 @@ def get_user_repositories(data: Dict[str, str]) -> Dict[str, Union[str, List]]:
 
 
 def get_all_saved_users() -> List[Dict[str, str]]:
+    session = Session(autocommit=True, expire_on_commit=False, autoflush=True)
     result: ResultProxy = session.execute(user.select()).fetchall()
     response = [{'username:': row['username'], 'repositories': row['repositories']} for row in result]
     return response
