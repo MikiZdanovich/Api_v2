@@ -11,3 +11,4 @@ redis
 Werkzeug==0.16.1 #should be removed from requirements when the issue with Flask_restpuls imports will be fixed
 pytest
 alembic
+SQLALCHEMY_Utils

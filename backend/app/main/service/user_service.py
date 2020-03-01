@@ -12,22 +12,19 @@ session = Session(autocommit=True, expire_on_commit=False, autoflush=True)
 
 
 def new_user(data: Dict[str, str], repositories) -> Dict[str, str]:
-    name = data['username']
-    session.execute(user.insert().values(username=name, repositories=repositories))
-    git_user = {'username': name, "repositories": repositories}
+    session.execute(user.insert().values(username=data['username'], repositories=repositories))
+    git_user = {'username': data['username'], "repositories": repositories}
     return git_user
 
 
 def update_user(data: Dict[str, str], repositories: List) -> Dict[str, str]:
-    name = data['username']
-    session.execute(user.update().where(user.c.username == name).values(repositories=repositories))
-    response = {"username": name, "repositories": repositories}
+    session.execute(user.update().where(user.c.username == data['username']).values(repositories=repositories))
+    response = {"username": data['username'], "repositories": repositories}
     return response
 
 
 def existing_user(data: Dict[str, str]) -> RowProxy:
-    name = data['username']
-    result = session.execute(user.select(user.c.username == name))
+    result = session.execute(user.select(user.c.username == data['username']))
     return result.fetchone()
 
 

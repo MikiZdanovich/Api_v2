@@ -13,3 +13,4 @@ def configure_engine(url):
     engine = create_engine(url)
     session_factory.configure(bind=engine)
     return engine
+

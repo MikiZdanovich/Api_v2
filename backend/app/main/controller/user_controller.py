@@ -11,7 +11,6 @@ _user = UserDto.user
 @api.route('/')
 class UserList(Resource):
     @api.doc('list_of_saved_users')
-    @api.marshal_list_with(_user, envelope='data')
     def get(self):
         """List all saved  users"""
         return get_all_saved_users()
@@ -52,4 +51,3 @@ class Task(Resource):
                 'status': str(task.info)
             }
         return response
-
