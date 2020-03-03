@@ -1,8 +1,8 @@
 from flask import request, url_for
 from flask_restplus import Resource
 
-from app.main.service.user_service import get_user_repositories, get_all_saved_users
-from app.main.util.dto import UserDto
+from backend.app.main.service.user_service import get_user_repositories, get_all_saved_users
+from backend.app.main.util.dto import UserDto
 
 api = UserDto.api
 _user = UserDto.user

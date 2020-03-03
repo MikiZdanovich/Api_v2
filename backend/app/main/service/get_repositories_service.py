@@ -3,7 +3,7 @@ from typing import Union, Dict, List
 import requests
 from requests.models import Response
 
-from app.main.util.exceptions import GitUserNotFound, GitHubServerUnavailable
+from backend.app.main.util.exceptions import GitUserNotFound, GitHubServerUnavailable
 
 
 def get_data_from_git_api(nickname: str) -> Dict[str, Union[int, List]]:
@@ -27,3 +27,9 @@ def get_repos(nickname: str) -> [List, str]:
     response = get_data_from_git_api(nickname)
     result: List = parse_response(response)
     return result
+
+
+if __name__ == "__main__":
+   result = get_repos("string")
+   print(type(result))
+   print(result)

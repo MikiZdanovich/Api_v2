@@ -3,8 +3,8 @@ import os
 from celery import Celery
 from flask import Flask
 
-from app.main.config import config_by_name
-from database import configure_engine, metadata
+from backend.app.main.config import config_by_name
+from backend.database import configure_engine, metadata
 
 
 
@@ -23,7 +23,7 @@ def celery_make(app):
         app.import_name,
         backend=app.config['CELERY_RESULT_BACKEND'],
         broker=app.config['CELERY_BROKER_URL'],
-        include='app.main.service.user_service'
+        include='backend.app.main.service.user_service'
     )
     celery.conf.update(app.config)
 

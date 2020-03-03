@@ -3,7 +3,7 @@ import os
 # uncomment the line below for postgres database url from environment variable
 basedir = os.path.abspath(os.path.dirname(__file__))
 postgres_local_base = os.environ['DATABASE_URL']
-
+postgres_local_test_base = os.environ['TEST_BASE']
 
 class Config:
     # uncomment the line below and set up Secret_key
@@ -12,19 +12,16 @@ class Config:
 
 
 class DevelopmentConfig(Config):
-    # uncomment the line below to use postgres
     DATABASE_URI = postgres_local_base
     DEBUG = True
-    # uncomment line below to use sqlite db
-    # SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'flask_boilerplate_main.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     CELERY_BROKER_URL = 'amqp://rabbitmq:rabbitmq@rabbit:5672/'
     CELERY_RESULT_BACKEND = 'rpc://'
+    TEST_DATABASE_URI = postgres_local_test_base
 
 
 class ProductionConfig(Config):
     DEBUG = False
-    # uncomment the line below to use postgres
     DATABASE_URI = postgres_local_base
 
 

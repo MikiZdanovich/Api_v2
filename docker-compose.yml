@@ -29,25 +29,30 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    command: gunicorn -b 0.0.0.0:5000 --reload  --max-requests 1000 --timeout 30 wsgi:app
+    command: gunicorn -b 0.0.0.0:5000 --reload  --max-requests 1000 --timeout 60 backend.wsgi:app
     ports:
       - 5000:5000
     env_file:
       - ./.env.dev
     depends_on:
       - db
+    volumes:
+      - ./backend:/api/backend
   worker:
     build:
       context: ./
       dockerfile: Dockerfile
-    command: celery -A make_celery worker -l info
+    command: celery -A backend.make_celery worker -l info
     env_file:
       - .env.dev
     depends_on:
       - db
       - rabbit
       - redis
+    volumes:
+      - ./backend:/api/backend
 
 volumes:
   postgres_data:
   redis:
+  backend:

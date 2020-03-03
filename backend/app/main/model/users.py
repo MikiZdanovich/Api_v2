@@ -1,6 +1,6 @@
 from sqlalchemy import Integer, String, Column, Table
 
-from database import metadata
+from backend.database import metadata
 
 user = Table('users', metadata,
              Column('id', Integer, primary_key=True),

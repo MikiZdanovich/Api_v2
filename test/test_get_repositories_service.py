@@ -1,7 +1,7 @@
 import pytest
 import requests
-from app.main.util.exceptions import GitUserNotFound,GitHubServerUnavailable
-from app.main.service.get_repositories_service import parse_response, get_data_from_git_api
+from backend.app.main.util.exceptions import GitUserNotFound,GitHubServerUnavailable
+from backend.app.main.service.get_repositories_service import parse_response, get_data_from_git_api
 
 
 # Just for fun fixture

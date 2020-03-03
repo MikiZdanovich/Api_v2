@@ -19,7 +19,7 @@ import sys, os
 sys.path.append(os.getcwd())
 config.set_main_option('sqlalchemy.url',
                        os.environ['DATABASE_URL'])
-from app.main.model.users import metadata
+from backend.app.main.model.users import metadata
 
 target_metadata = metadata
 
@@ -60,7 +60,7 @@ def run_migrations_online():
     and associate a connection with the context.
 
     """
-    from database import configure_engine
+    from backend.database import configure_engine
 
     url = config.get_main_option("sqlalchemy.url")
     engine = configure_engine(url)
