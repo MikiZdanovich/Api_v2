@@ -18,7 +18,7 @@ def new_user(data: Dict[str, str], repositories: List) -> Dict[str, str]:
 
 
 def update_user(data: Dict[str, str], repositories: List) -> Dict[str, str]:
-    session = Session()
+    session: Session = Session()
     session.execute(user.update().where(user.c.username == data['username']).values(repositories=repositories))
     session.commit()
     response = {"username": data['username'], "repositories": repositories}
@@ -27,7 +27,7 @@ def update_user(data: Dict[str, str], repositories: List) -> Dict[str, str]:
 
 def existing_user(data: Dict[str, str]) -> RowProxy:
     session = Session()
-    result = session.execute(user.select(user.c.username == data['username']))
+    result: ResultProxy = session.execute(user.select(user.c.username == data['username']))
     return result.fetchone()
 
 

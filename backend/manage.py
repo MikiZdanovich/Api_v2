@@ -2,9 +2,9 @@ import os
 
 from flask_script import Manager
 
-from backend.apps import create_app
 from backend.app.main.model.users import metadata
 from backend.app.main.views import user_bp
+from backend.apps import create_app
 
 application = create_app(os.getenv('BOILERPLATE_ENV') or 'dev')
 application.register_blueprint(user_bp)

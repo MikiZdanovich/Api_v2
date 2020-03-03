@@ -5,6 +5,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 postgres_local_base = os.environ['DATABASE_URL']
 postgres_local_test_base = os.environ['TEST_BASE']
 
+
 class Config:
     # uncomment the line below and set up Secret_key
     # SECRET_KEY = os.getenv('SECRET_KEY', 'my_precious_secret_key')

@@ -30,6 +30,6 @@ def get_repos(nickname: str) -> [List, str]:
 
 
 if __name__ == "__main__":
-   result = get_repos("string")
-   print(type(result))
-   print(result)
+    result = get_repos("string")
+    print(type(result))
+    print(result)
