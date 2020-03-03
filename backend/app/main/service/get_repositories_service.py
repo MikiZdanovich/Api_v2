@@ -1,7 +1,9 @@
 from typing import Union, Dict, List
-from werkzeug.exceptions import NotFound, InternalServerError, Forbidden
+
 import requests
 from requests.models import Response
+
+from backend.app.main.util.exceptions import GitUserNotFound, GitHubServerUnavailable
 
 
 def get_data_from_git_api(nickname: str) -> Dict[str, Union[int, List]]:
@@ -11,19 +13,23 @@ def get_data_from_git_api(nickname: str) -> Dict[str, Union[int, List]]:
     return result
 
 
-def parse_response(result: Dict[str, Union[int, List]]) -> List:
+def parse_response(result: Dict[str, Union[int, List]]) -> [List, str]:
     if result["status"] == 200:
         list_repos: List = [item["name"] for item in result["data"]]
         return list_repos
     elif result['status'] == 404:
-        raise NotFound
-    elif result["status"] == 403:
-        raise Forbidden
+        raise GitUserNotFound
     else:
-        raise InternalServerError
+        raise GitHubServerUnavailable
 
 
 def get_repos(nickname: str) -> [List, str]:
-    response: Dict[str, Union[int, List]] = get_data_from_git_api(nickname)
+    response = get_data_from_git_api(nickname)
     result: List = parse_response(response)
     return result
+
+
+if __name__ == "__main__":
+   result = get_repos("string")
+   print(type(result))
+   print(result)

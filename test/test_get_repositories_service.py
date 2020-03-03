@@ -1,8 +1,7 @@
 import pytest
 import requests
-from requests import Response
-from werkzeug.exceptions import Forbidden, InternalServerError, NotFound
-from app.main.service.get_repositories_service import parse_response, get_data_from_git_api
+from backend.app.main.util.exceptions import GitUserNotFound,GitHubServerUnavailable
+from backend.app.main.service.get_repositories_service import parse_response, get_data_from_git_api
 
 
 # Just for fun fixture
@@ -27,10 +26,10 @@ class TestParseResponse:
         assert isinstance(parse_response(response), list)
 
     @pytest.mark.parametrize("exception,response", [
-        (Forbidden, {"status": 403, "data": [{"name": "repo_one"}]}),
-        (InternalServerError, {"status": 500, "data": [{"name": "repo_one"}]}),
-        (NotFound, {"status": 404, "data": [{"name": "repo_one"}]}),
-        (InternalServerError, {"status": 505, "data": []})
+        (GitHubServerUnavailable, {"status": 403, "data": [{"name": "repo_one"}]}),
+        (GitHubServerUnavailable, {"status": 500, "data": [{"name": "repo_one"}]}),
+        (GitUserNotFound, {"status": 404, "data": [{"name": "repo_one"}]}),
+        (GitHubServerUnavailable, {"status": 505, "data": []})
     ]
                              )
     def test_pr_not_ok(self, exception, response):
