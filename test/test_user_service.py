@@ -6,15 +6,17 @@ from backend.app.main.service.user_service import new_user, update_user, existin
 
 """
 test_<what>__<when>__<expect>
+
 """
 
 
 @pytest.fixture(scope="session", autouse=True)
 def db():
+    import os
     from backend.app.main.model.users import metadata
     from backend.database import configure_engine
-    from backend.app.main.config import DevelopmentConfig
-    url = DevelopmentConfig.TEST_DATABASE_URI
+
+    url = os.getenv('TEST_BASE')
 
     engine = configure_engine(url)
     if not database_exists(url):

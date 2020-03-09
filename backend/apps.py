@@ -7,8 +7,6 @@ from backend.app.main.config import config_by_name
 from backend.database import configure_engine, metadata
 
 
-
-
 def create_app(config_name):
     engine = configure_engine(os.getenv('DATABASE_URL'))
     app = Flask(__name__)
