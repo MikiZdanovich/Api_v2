@@ -38,6 +38,7 @@ services:
       - db
     volumes:
       - ./backend:/api/backend
+      - ./test:/api/test
   worker:
     build:
       context: ./
@@ -51,7 +52,13 @@ services:
       - redis
     volumes:
       - ./backend:/api/backend
-
+      - ./test:/api/test
+  nginx:
+    build: backend/nginx
+    ports:
+      - 1337:80
+    depends_on:
+      - app
 volumes:
   postgres_data:
   redis:
