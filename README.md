@@ -10,5 +10,8 @@ docker-compose -f docker-compose.yml up -d --build
 ## Run migrations 
 docker-compose exec app alembic upgrade head
 
-
+## Run service
 Open http://localhost:5000/
+
+## Run test's
+Docker-compose exec app pytest
