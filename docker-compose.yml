@@ -14,17 +14,17 @@ services:
     hostname: rabbit
     image: rabbitmq:management
     env_file:
-      - env.rabbit.dev
+      - .env.dev
     ports:
-      - "5673:5672"
-      - "15672:15672"
+      - 5673:5672
+      - 15672:15672
   redis:
-    image: 'redis:3.0-alpine'
+    image: redis:3.0-alpine
     command: redis-server
     volumes:
-      - 'redis:/data'
+      - redis:/data
     ports:
-      - '6379:6379'
+      - 6379:6379
   app:
     build:
       context: ./
