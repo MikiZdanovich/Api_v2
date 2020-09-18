@@ -36,9 +36,7 @@ services:
       - ./.env.dev
     depends_on:
       - db
-    volumes:
-      - ./backend:/api/backend
-      - ./test:/api/test
+
   worker:
     build:
       context: ./
@@ -50,9 +48,7 @@ services:
       - db
       - rabbit
       - redis
-    volumes:
-      - ./backend:/api/backend
-      - ./test:/api/test
+
   nginx:
     build: backend/nginx
     ports:
@@ -63,3 +59,4 @@ volumes:
   postgres_data:
   redis:
   backend:
+  test:
